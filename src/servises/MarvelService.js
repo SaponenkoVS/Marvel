@@ -7,7 +7,7 @@ class MarvelService{
         let res = await fetch(url);
 
         if(!res.ok){
-            throw new Error(`Could not fetch ${url}, status: ${res.statu})`);
+            throw new Error(`Could not fetch ${url}, status: ${res.status})`);
         }
         return await res.json();
     }
@@ -16,22 +16,24 @@ class MarvelService{
     getAllCharecters =()=>{
         let res = this.getResourse(`${this._apiBase}?limit=9&offset=210${this._apiKey}`
         );
-        return res.data.results.map(this._transformCharacter);
+           return res.data.results.map(this._transformCharacter);
     }
+     
     
         getCharecter = async(id)=>{
             let res = await this.getResourse(`${this._apiBase}/${id}?${this._apiKey}`
             );
-            return this._transformCharacter(res);
+            return this._transformCharacter(res.data.results[0]);
         }
 
-    _transformCharacter = (res)=>{
+    _transformCharacter = (char)=>{
         return {
-            name : res.data.results[0].name,
-            description: res.data.results[0].description || 'Sorry,but description is not founded' ,
-            thumbnail: res.data.results[0].thumbnail.path + '.' + res.data.results[0].thumbnail.extension,
-            homePage: res.data.results[0].urls[0].url,
-            wiki: res.data.results[0].urls[1].url
+            id: char.id,
+            name : char.name,
+            description:char.description || 'Sorry,but description is not founded' ,
+            thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
+            homePage: char.urls[0].url,
+            wiki: char.urls[1].url
         }
     }
 }
