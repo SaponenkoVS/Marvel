@@ -13,10 +13,10 @@ class MarvelService{
     }
 
 
-    getAllCharecters =()=>{
-        let res = this.getResourse(`${this._apiBase}?limit=9&offset=210${this._apiKey}`
+    getAllCharecters =async()=>{
+        let res = await this.getResourse(`${this._apiBase}?limit=9&offset=210${this._apiKey}`
         );
-           return res.data.results.map(this._transformCharacter);
+           return  res.data.results.map(this._transformCharacter);
     }
      
     
@@ -34,7 +34,9 @@ class MarvelService{
             thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homePage: char.urls[0].url,
             wiki: char.urls[1].url
-        }
+    }
     }
 }
 export default MarvelService;
+
+

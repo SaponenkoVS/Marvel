@@ -6,7 +6,6 @@ import Spinner from '../spinner/Spinner';
 
 
 class CharList extends Component{
-    
 
     state={
      charList:[],
@@ -16,16 +15,18 @@ class CharList extends Component{
 
    marvelService = new MarvelService();
 
-   componentDidCatch(){
-    this.marvelService.getAllCharecters()
-       .then(this.onCharListLoaded)
-       .catch(this.onError)
+   componentDidMount(){
+    this.onLoading();
+    this.marvelService
+    .getAllCharecters()
+    .then(this.onCharListLoaded)
+    .catch(this.onError)
     }
    
 
    onCharListLoaded=(charList)=>{
     this.setState({
-        charList:true,
+        charList,
         loading:false,
         error: false
     })
@@ -37,6 +38,13 @@ class CharList extends Component{
         loading: false
     })
    }
+
+   onLoading=()=>{
+    this.setState({
+        loading : true,
+    }) 
+     
+}
 
    renderItems(arr){
     const items = arr.map((item)=>{
@@ -85,3 +93,6 @@ class CharList extends Component{
 
 
 export default CharList;
+
+
+
