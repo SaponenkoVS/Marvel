@@ -3,6 +3,7 @@
 class MarvelService{
     _apiKey = '&apikey=6757f3b83bb2f5c25f183fc3652cc4af'
     _apiBase = 'https://gateway.marvel.com:443/v1/public/characters';
+    _baseOffsetChar = 210
     getResourse=async (url)=>{
         let res = await fetch(url);
 
@@ -13,8 +14,8 @@ class MarvelService{
     }
 
 
-    getAllCharecters =async()=>{
-        let res = await this.getResourse(`${this._apiBase}?limit=9&offset=210${this._apiKey}`
+    getAllCharecters =async(offset = this._baseOffsetChar)=>{
+        let res = await this.getResourse(`${this._apiBase}?limit=9&offset=${offset}${this._apiKey}`
         );
            return  res.data.results.map(this._transformCharacter);
     }
@@ -33,7 +34,8 @@ class MarvelService{
             description:char.description || 'Sorry,but description is not founded' ,
             thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homePage: char.urls[0].url,
-            wiki: char.urls[1].url
+            wiki: char.urls[1].url,
+            comics: char.comics.items
     }
     }
 }
